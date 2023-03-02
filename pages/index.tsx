@@ -1,20 +1,53 @@
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { Board } from '../components/Board';
-import styles from '../styles/Home.module.css';
+import { Button, Grid } from "@mui/material";
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import { Board } from "../components/Board";
+import { Card } from "../components/Card";
+import styles from "../styles/Home.module.css";
 
-// export default function Home() {
-//   return (
-//     <div className={styles.container}>
-//       <Head>
-//         <title>Create Next App</title>
-//       </Head>
+const board = [
+  {
+    bgFront: "/images/illustrations/card-1-turned.svg",
+    bgBack: "/images/phase1/game/card-1.svg",
+  },
+  {
+    bgFront: "/images/illustrations/card-2-turned.svg",
+    bgBack: "/images/phase1/game/card-2.svg",
+  },
+  {
+    bgFront: "/images/illustrations/card-3-turned.svg",
+    bgBack: "/images/phase1/game/card-3.svg",
+  },
+  {
+    bgFront: "/images/illustrations/card-4-turned.svg",
+    bgBack: "/images/phase1/game/card-4.svg",
+  },
+  {
+    bgFront: "/images/illustrations/card-5-turned.svg",
+    bgBack: "/images/phase1/game/card-5.svg",
+  },
+  {
+    bgFront: "/images/illustrations/card-6-turned.svg",
+    bgBack: "/images/phase1/game/card-6.svg",
+  },
+  {
+    bgFront: "/images/illustrations/card-7-turned.svg",
+    bgBack: "/images/phase1/game/card-7.svg",
+  },
+  {
+    bgFront: "/images/illustrations/card-8-turned.svg",
+    bgBack: "/images/phase1/game/card-8.svg",
+  },
+  {
+    bgFront: "/images/illustrations/card-9-turned.svg",
+    bgBack: "/images/phase1/game/card-9.svg",
+  },
+  {
+    bgFront: "/images/illustrations/card-10-turned.svg",
+    bgBack: "/images/phase1/game/card-10.svg",
+  },
+];
 
-//       <Board />
-//     </div>
-//   );
-// }
-const board = ['🤖', '👽', '👻', '🤡', '🐧', '🦚', '😄', '🚀'];
 export default function Home() {
   const [boardData, setBoardData] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
@@ -26,7 +59,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (matchedCards.length == 16) {
+    if (matchedCards.length == 10) {
       setGameOver(true);
     }
   }, [moves]);
@@ -38,12 +71,9 @@ export default function Home() {
     setMatchedCards([]);
     setMoves(0);
   };
-  const shuffle = () => {
-    const shuffledCards = [...board, ...board]
-      .sort(() => Math.random() - 0.5)
-      .map((v) => v);
 
-    setBoardData(shuffledCards);
+  const shuffle = () => {
+    setBoardData(board);
   };
 
   const updateActiveCards = (i) => {
@@ -67,37 +97,49 @@ export default function Home() {
   };
 
   return (
-    <div className="container">
-      <div className="menu">
-        <p>{`Moves - ${moves}`}</p>
-      </div>
-
-      <div className="board">
+    <Grid className="container" pt={8} pl={8}>
+      <Grid className="board" container gap={2}>
         {boardData.map((data, i) => {
           const flipped = flippedCards.includes(i) ? true : false;
           const matched = matchedCards.includes(i) ? true : false;
           return (
-            <div
-              onClick={() => {
-                updateActiveCards(i);
-              }}
-              key={i}
-              className={`card ${flipped || matched ? 'active' : ''} ${
-                matched ? 'matched' : ''
-              } ${gameOver ? 'gameover' : ''}`}
-            >
-              <div className="card-front">{data}</div>
-              <div className="card-back"></div>
-            </div>
+            <Grid lg={2} xs={2}>
+              <Card
+                key={i}
+                {...{
+                  flipped,
+                  matched,
+                  gameOver,
+                  data,
+                  onClick: () => {
+                    updateActiveCards(i);
+                  },
+                }}
+              />
+            </Grid>
           );
         })}
-      </div>
-      <div className="menu">
-        <p>{`GameOver - ${gameOver}`}</p>
-        <button onClick={() => initialize()} className="reset-btn">
-          Reset
-        </button>
-      </div>
-    </div>
+        <Grid className="menu" paddingX={8} container>
+          <p>{`GameOver - ${gameOver}`}</p>
+          <Grid flex={1} />
+          <Grid className="menu">
+            <p>{`Moves - ${moves}`}</p>
+          </Grid>
+          <Grid ml={2}>
+            <Button
+              style={{
+                backgroundColor: "#23B4B6",
+                color: "#fff",
+                width: "100px",
+              }}
+              onClick={() => initialize()}
+              className="reset-btn"
+            >
+              Reset
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }

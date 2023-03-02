@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-const board = ['🤖', '👽', '👻', '🤡', '🐧'];
+import { Card, Grid } from "@mui/material";
+import { useState, useEffect } from "react";
+const board = ["🤖", "👽", "👻", "🤡", "🐧"];
 
 export function Board() {
   const [boardData, setBoardData] = useState([]);
@@ -10,10 +11,9 @@ export function Board() {
   useEffect(() => {
     initialize();
   }, []);
-  
 
   useEffect(() => {
-    if (matchedCards.length == 16) {
+    if (matchedCards.length == 10) {
       setGameOver(true);
     }
   }, [moves]);
@@ -54,37 +54,37 @@ export function Board() {
   };
 
   return (
-    <div className="container">
-      <div className="menu">
+    <Grid className="container">
+      <Grid className="menu">
         <p>{`Moves - ${moves}`}</p>
-      </div>
+      </Grid>
 
-      <div className="board">
+      <Grid container>
         {boardData.map((data, i) => {
           const flipped = flippedCards.includes(i) ? true : false;
           const matched = matchedCards.includes(i) ? true : false;
           return (
-            <div
-              onClick={() => {
-                updateActiveCards(i);
-              }}
+            <Card
               key={i}
-              className={`card ${flipped || matched ? 'active' : ''} ${
-                matched ? 'matched' : ''
-              } ${gameOver ? 'gameover' : ''}`}
-            >
-              <div className="card-front">{data}</div>
-              <div className="card-back"></div>
-            </div>
+              {...{
+                flipped,
+                matched,
+                gameOver,
+                data,
+                onClick: () => {
+                  updateActiveCards(i);
+                },
+              }}
+            />
           );
         })}
-      </div>
-      <div className="menu">
+      </Grid>
+      <Grid className="menu">
         <p>{`GameOver - ${gameOver}`}</p>
         <button onClick={() => initialize()} className="reset-btn">
           Reset
         </button>
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 }

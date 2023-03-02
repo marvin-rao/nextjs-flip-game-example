@@ -15,29 +15,33 @@ a {
 * {
   box-sizing: border-box;
 }
-body {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+.container {
+  background-image: url("/images/phase1/img-bg-desktop.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
 }
 .board {
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(4, 75px);
-  grid-gap: 8px;
+  grid-gap: 8px; */
+  width: 1000px;
 }
 
 .card {
-  border-radius: 8px;
+  border-radius: 20px;
   text-align: center;
-  height: 100px;
+  height: 240px;
   font-size: 36px;
   font-weight: bold;
   position: relative;
   transform-style: preserve-3d;
   transition: all 0.2s;
   user-select: none;
-  border: 4px solid #fff;
+  /* border: 4px solid #fff; */
+  overflow: hidden;
 }
 .card.gameover {
   pointer-events: none;
@@ -72,14 +76,14 @@ body {
   z-index: 2;
 }
 .card-back {
-  background-color: #ffd700;
+  /* background-color: #ffd700; */
 
   transform: rotateY(0);
   z-index: 1;
 }
 .card-back::after {
   position: absolute;
-  content: '';
+  content: "";
   top: 0;
   left: 0;
   width: 75%;
