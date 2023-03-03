@@ -25,12 +25,19 @@ export const Card = ({
         matched ? "matched" : ""
       } ${gameOver ? "gameover" : ""}`}
     >
-      <img
-        src={
-          gameOver ? completeBg : flipped ? bgFront : matched ? bgFront : backBg
-        }
-        className="card-back"
-      />
+      {!gameOver && (
+        <img
+          src={flipped ? bgFront : matched ? bgFront : backBg}
+          className="card-back"
+        />
+      )}
+      {gameOver && (
+        <img
+          src={completeBg}
+          className="card"
+          style={{ transform: "rotateY(180deg)" }}
+        />
+      )}
     </Grid>
   );
 };
