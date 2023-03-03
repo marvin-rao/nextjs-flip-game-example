@@ -17,7 +17,7 @@ a {
 }
 
 .main-title {
-  font-size: 60px;
+  font-size: 40px !important;
 }
 
 .container {
@@ -93,5 +93,8 @@ a {
   .board {
     width: auto;
     margin: auto;
+  }
+  .main-title {
+    font-size: 20px !important;
   }
 }

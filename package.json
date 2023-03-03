@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "export": "next export",
+    "deploy": "npm run lint && npm run build && npm run export && firebase deploy"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",

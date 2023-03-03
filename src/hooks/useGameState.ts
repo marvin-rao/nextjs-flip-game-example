@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export type CardData = {
   bgFront: string;
@@ -62,6 +62,29 @@ export const useGameState = () => {
 
   const [gameData, setGameData] = useState<GameState>(defaultGameState);
 
+  const initialize = () => {
+    if (typeof window !== "undefined") {
+      const cache = localStorage.getItem("CachedGame");
+      if (cache) {
+        setGameData({ ...JSON.parse(cache), cards: [...cards, ...cards] });
+        return;
+      }
+    }
+    setGameData({
+      ...defaultGameState,
+      cards: getShuffledArray([...cards, ...cards]),
+    });
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      console.log("Set Game to local storage");
+      setTimeout(() => {
+        localStorage.setItem("CachedGame", JSON.stringify(gameData));
+      }, 2000);
+    }
+  }, [gameData]);
+
   const setFlippedIndices = (flippedIndices: GameState["flippedIndices"]) => {
     setGameData((prev) => {
       return { ...prev, flippedIndices };
@@ -77,13 +100,6 @@ export const useGameState = () => {
   const setMoves = (moves: GameState["moves"]) => {
     setGameData((prev) => {
       return { ...prev, moves };
-    });
-  };
-
-  const initialize = () => {
-    setGameData({
-      ...defaultGameState,
-      cards: getShuffledArray([...cards, ...cards]),
     });
   };
 

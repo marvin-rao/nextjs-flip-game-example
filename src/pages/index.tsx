@@ -1,7 +1,8 @@
 import { Button, Grid, Typography } from "@mui/material";
+import Head from "next/head";
 import { useEffect } from "react";
 import { Card } from "../components/Card";
-import { useGameState } from "./hooks/useGameState";
+import { useGameState } from "../hooks/useGameState";
 
 export default function Home() {
   const {
@@ -51,64 +52,62 @@ export default function Home() {
   };
 
   return (
-    <Grid className="container">
-      <Grid
-        pt={{
-          xl: "160px",
-          xs: "100px",
-        }}
-        pb={4}
-        p={2}
-      >
-        {gameOver && (
-          <Grid ml={2} position={"absolute"} top={"60px"} right={"30px"}>
-            <Button
-              style={{
-                backgroundColor: "#FFFFFF",
-                color: "#000",
-                width: "100px",
-              }}
-              onClick={() => initialize()}
-            >
-              Replay
-            </Button>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <Grid className="container">
+        <Grid pt={{ xl: "160px", xs: "100px" }} pb={4} p={2}>
+          {gameOver && (
+            <Grid ml={2} position={"absolute"} top={"60px"} right={"30px"}>
+              <Button
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  color: "#000",
+                  width: "100px",
+                }}
+                onClick={() => initialize()}
+              >
+                Replay
+              </Button>
+            </Grid>
+          )}
+        </Grid>
+        <Grid className="board" container ml={"auto"} mr={"auto"}>
+          <Grid mb={2}>
+            <Typography className={"main-title"} sx={{ wordBreak: "keep-all" }}>
+              <b>Buy and Sell</b> premium, pre-loved fashion for little ones
+            </Typography>
           </Grid>
-        )}
-      </Grid>
-      <Grid className="board" container ml={"auto"} mr={"auto"}>
-        <Grid mb={2}>
-          <Typography className={"main-title"} sx={{ wordBreak: "keep-all" }}>
-            <b>Buy and Sell</b> premium, pre-loved fashion for little ones
-          </Typography>
-        </Grid>
-        <Grid className="board" container ml={"auto"} mr={"auto"} gap={1}>
-          {cards.map((data, i) => {
-            const { id } = data;
-            const flipped = flippedIndices.includes(i);
-            const matched = matchedCards.includes(id);
-            const completeBg = completeBgs[i];
-            const backBg = backBgs[i];
+          <Grid className="board" container ml={"auto"} mr={"auto"} gap={0.5}>
+            {cards.map((data, i) => {
+              const { id } = data;
+              const flipped = flippedIndices.includes(i);
+              const matched = matchedCards.includes(id);
+              const completeBg = completeBgs[i];
+              const backBg = backBgs[i];
 
-            return (
-              <Grid item lg={2.2} xs={2.2} key={i}>
-                <Card
-                  {...{
-                    flipped,
-                    matched,
-                    gameOver,
-                    backBg,
-                    completeBg,
-                    data,
-                    onClick: () => {
-                      updateActiveCards(i);
-                    },
-                  }}
-                />
-              </Grid>
-            );
-          })}
+              return (
+                <Grid item lg={2.2} xs={2.2} key={i}>
+                  <Card
+                    {...{
+                      flipped,
+                      matched,
+                      gameOver,
+                      backBg,
+                      completeBg,
+                      data,
+                      onClick: () => {
+                        updateActiveCards(i);
+                      },
+                    }}
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
