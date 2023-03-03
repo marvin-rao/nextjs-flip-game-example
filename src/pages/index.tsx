@@ -1,40 +1,34 @@
-import { Button, Grid } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Button, Grid, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { Card } from "../components/Card";
-import { useGameData } from "./hooks/useGameData";
+import { useGameState } from "./hooks/useGameState";
 
 export default function Home() {
-  const [flippedIndices, setFlippedIndices] = useState<number[]>([]);
-  const [matchedCards, setMatchedCards] = useState<string[]>([]);
-  const [moves, setMoves] = useState(0);
-  const [gameOver, setGameOver] = useState(false);
-  const { setBoardData, gameData } = useGameData();
-  const { cards } = gameData;
+  const {
+    gameData,
+    setGameData,
+    setFlippedIndices,
+    setMatchedCards,
+    setMoves,
+    initialize,
+  } = useGameState();
+  const { cards, moves, gameOver, flippedIndices, matchedCards } = gameData;
+  const completeBgs = [...Array(10)].map(
+    (x, i) => `images/game_complete/card-${i + 1}-complete.svg`
+  );
+  const backBgs = [...Array(10)].map(
+    (x, i) => `/images/phase1/game/card-${i + 1}.svg`
+  );
 
   useEffect(() => {
     initialize();
   }, []);
 
   useEffect(() => {
-    if (matchedCards.length == 10) {
-      setGameOver(true);
+    if (gameData.matchedCards.length == 10) {
+      setGameData({ ...gameData, gameOver: true });
     }
   }, [moves]);
-
-  const initialize = () => {
-    shuffle();
-    setGameOver(false);
-    setFlippedIndices([]);
-    setMatchedCards([]);
-    setMoves(0);
-  };
-
-  const shuffle = () => {
-    const shuffledCards = [...cards, ...cards]
-      .sort(() => Math.random() - 0.5)
-      .map((v) => v);
-    setBoardData(shuffledCards);
-  };
 
   const updateActiveCards = (i: number) => {
     if (!flippedIndices.includes(i)) {
@@ -43,63 +37,76 @@ export default function Home() {
         const secondId = cards[i].id;
 
         if (firstId === secondId) {
-          setMatchedCards((prev) => [...prev, firstId, secondId]);
+          setMatchedCards([...matchedCards, firstId, secondId]);
         }
         setFlippedIndices([...flippedIndices, i]);
       } else if (flippedIndices.length === 2) {
         setFlippedIndices([i]);
       } else {
-        setFlippedIndices([...flippedIndices, i]);
+        setFlippedIndices([i]);
       }
 
-      setMoves((v) => v + 1);
+      setMoves(moves + 1);
     }
   };
 
   return (
-    <Grid className="container" pt={8} pl={8}>
-      <Grid className="board" container gap={1}>
-        {cards.map((data, i) => {
-          const { id } = data;
-          const flipped = flippedIndices.includes(i);
-          const matched = matchedCards.includes(id);
-          console.log("matched", matched);
-          return (
-            <Grid item lg={2} xs={2} key={i}>
-              <Card
-                {...{
-                  flipped,
-                  matched,
-                  gameOver,
-                  data,
-                  onClick: () => {
-                    updateActiveCards(i);
-                  },
-                }}
-              />
-            </Grid>
-          );
-        })}
-
-        <Grid className="menu" paddingX={8} container>
-          <p>{`GameOver - ${gameOver}`}</p>
-          <Grid flex={1} />
-          <Grid className="menu">
-            <p>{`Moves - ${moves}`}</p>
-          </Grid>
-          <Grid ml={2}>
+    <Grid className="container">
+      <Grid
+        pt={{
+          xl: "160px",
+          xs: "100px",
+        }}
+        pb={4}
+        p={2}
+      >
+        {gameOver && (
+          <Grid ml={2} position={"absolute"} top={"60px"} right={"30px"}>
             <Button
               style={{
-                backgroundColor: "#23B4B6",
-                color: "#fff",
+                backgroundColor: "#FFFFFF",
+                color: "#000",
                 width: "100px",
               }}
               onClick={() => initialize()}
-              className="reset-btn"
             >
-              Reset
+              Replay
             </Button>
           </Grid>
+        )}
+      </Grid>
+      <Grid className="board" container ml={"auto"} mr={"auto"}>
+        <Grid mb={2}>
+          <Typography className={"main-title"} sx={{ wordBreak: "keep-all" }}>
+            <b>Buy and Sell</b> premium, pre-loved fashion for little ones
+          </Typography>
+        </Grid>
+        <Grid className="board" container ml={"auto"} mr={"auto"} gap={1}>
+          {cards.map((data, i) => {
+            const { id } = data;
+            const flipped = flippedIndices.includes(i);
+            const matched = matchedCards.includes(id);
+            const completeBg = completeBgs[i];
+            const backBg = backBgs[i];
+
+            return (
+              <Grid item lg={2.2} xs={2.2} key={i}>
+                <Card
+                  {...{
+                    flipped,
+                    matched,
+                    gameOver,
+                    backBg,
+                    completeBg,
+                    data,
+                    onClick: () => {
+                      updateActiveCards(i);
+                    },
+                  }}
+                />
+              </Grid>
+            );
+          })}
         </Grid>
       </Grid>
     </Grid>

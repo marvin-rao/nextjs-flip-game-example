@@ -6,15 +6,18 @@ export const Card = ({
   flipped,
   gameOver,
   data,
+  completeBg,
+  backBg,
 }: {
   flipped: boolean;
   matched: boolean;
   onClick: () => void;
   gameOver: boolean;
-  data: { bgBack: string; bgFront: string };
+  completeBg: string;
+  backBg: string;
+  data: { bgFront: string };
 }) => {
-  const { bgBack, bgFront } = data;
-  const bg = flipped ? bgFront : matched ? bgFront : bgBack;
+  const { bgFront } = data;
   return (
     <Grid
       onClick={onClick}
@@ -22,14 +25,11 @@ export const Card = ({
         matched ? "matched" : ""
       } ${gameOver ? "gameover" : ""}`}
     >
-      <div
+      <img
+        src={
+          gameOver ? completeBg : flipped ? bgFront : matched ? bgFront : backBg
+        }
         className="card-back"
-        style={{
-          backgroundImage: `url('${bg}')`,
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
       />
     </Grid>
   );

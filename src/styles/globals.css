@@ -16,6 +16,10 @@ a {
   box-sizing: border-box;
 }
 
+.main-title {
+  font-size: 60px;
+}
+
 .container {
   background-image: url("/images/phase1/img-bg-desktop.svg");
   background-position: center;
@@ -24,23 +28,19 @@ a {
   height: 100vh;
 }
 .board {
-  /* display: grid;
-  grid-template-columns: repeat(4, 75px);
-  grid-gap: 8px; */
   width: 1000px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .card {
-  border-radius: 20px;
   text-align: center;
-  height: 240px;
   font-size: 36px;
   font-weight: bold;
   position: relative;
   transform-style: preserve-3d;
   transition: all 0.2s;
   user-select: none;
-  /* border: 4px solid #fff; */
   overflow: hidden;
 }
 .card.gameover {
@@ -58,12 +58,8 @@ a {
 }
 .card-front,
 .card-back {
-  position: absolute;
-  left: 0;
-  top: 0;
   width: 100%;
   backface-visibility: hidden;
-  height: 100%;
 }
 .card-front {
   transform: rotateY(180deg);
@@ -72,12 +68,9 @@ a {
   vertical-align: middle;
   text-align: center;
   font-size: 50px;
-
   z-index: 2;
 }
 .card-back {
-  /* background-color: #ffd700; */
-
   transform: rotateY(0);
   z-index: 1;
 }
@@ -90,12 +83,15 @@ a {
   height: 75%;
   border-radius: 50%;
 }
-.menu {
-  display: flex;
-  justify-content: space-between;
-}
-
-.menu p {
-  font-size: 20px;
-  font-weight: 600;
+@media (max-width: 1000px) {
+  .container {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    background-image: url("/images/phase1/img-bg-mobile.svg");
+  }
+  .board {
+    width: auto;
+    margin: auto;
+  }
 }
