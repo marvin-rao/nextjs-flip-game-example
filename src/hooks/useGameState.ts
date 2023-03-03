@@ -76,12 +76,19 @@ export const useGameState = () => {
     });
   };
 
+  const replay = () => {
+    setGameData({
+      ...defaultGameState,
+      cards: getShuffledArray([...cards, ...cards]),
+    });
+  };
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       console.log("Set Game to local storage");
       setTimeout(() => {
         localStorage.setItem("CachedGame", JSON.stringify(gameData));
-      }, 2000);
+      }, 1000);
     }
   }, [gameData]);
 
@@ -111,5 +118,6 @@ export const useGameState = () => {
     setGameData,
     setMoves,
     initialize,
+    replay,
   };
 };

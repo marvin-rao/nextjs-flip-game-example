@@ -12,6 +12,7 @@ export default function Home() {
     setMatchedCards,
     setMoves,
     initialize,
+    replay,
   } = useGameState();
   const { cards, moves, gameOver, flippedIndices, matchedCards } = gameData;
   const completeBgs = [...Array(10)].map(
@@ -66,7 +67,7 @@ export default function Home() {
                   color: "#000",
                   width: "100px",
                 }}
-                onClick={() => initialize()}
+                onClick={() => replay()}
               >
                 Replay
               </Button>
