@@ -43,6 +43,11 @@ a {
   user-select: none;
   overflow: hidden;
 }
+
+.card img {
+  width: 100%;
+}
+
 .card.gameover {
   pointer-events: none;
 }

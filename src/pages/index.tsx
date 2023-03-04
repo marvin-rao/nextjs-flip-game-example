@@ -14,11 +14,12 @@ export default function Home() {
     initialize,
     replay,
   } = useGameState();
+  const maxCards = 10;
   const { cards, moves, gameOver, flippedIndices, matchedCards } = gameData;
-  const completeBgs = [...Array(10)].map(
+  const completeBgs = [...Array(maxCards)].map(
     (x, i) => `images/game_complete/card-${i + 1}-complete.svg`
   );
-  const backBgs = [...Array(10)].map(
+  const backBgs = [...Array(maxCards)].map(
     (x, i) => `/images/phase1/game/card-${i + 1}.svg`
   );
 
@@ -27,7 +28,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (gameData.matchedCards.length == 10) {
+    if (gameData.matchedCards.length === maxCards) {
       setGameData({ ...gameData, gameOver: true });
     }
   }, [moves]);
@@ -55,7 +56,20 @@ export default function Home() {
   return (
     <>
       <Head>
+        <title>{"Happy Hunny"}</title>
+        <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="user-scalable=no, width=device-width" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="viewport"
+          content="width=device-width; initial-scale=1; minimum-scale=1; maximum-scale=1; user-scalable=0"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
       </Head>
       <Grid className="container">
         <Grid pt={{ xl: "160px", xs: "100px" }} pb={4} p={2}>
